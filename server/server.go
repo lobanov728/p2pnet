@@ -37,8 +37,9 @@ func Run(messenger *messenger.Messenger) {
 				if string(msg.Command) == protocol.CmdHand {
 					messenger.AddPeer(string(msg.Content), msg.From)
 
-					resp := protocol.NewMessage(protocol.CmdResp, []byte(messenger.Name))
+					resp := protocol.NewMessage(protocol.CmdResp)
 					resp.From = messenger.PubKey
+					resp.Content = []byte(messenger.Name)
 
 					conn.Write(resp.Serialize())
 				}

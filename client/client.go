@@ -48,7 +48,8 @@ func Run(messanger *messenger.Messenger) {
 					continue
 				}
 
-				msg := protocol.NewMessage(protocol.CmdHand, []byte(messanger.Name))
+				msg := protocol.NewMessage(protocol.CmdHand)
+				msg.Content = []byte(messanger.Name)
 				msg.From = messanger.PubKey
 
 				conn.Write(msg.Serialize())
@@ -95,8 +96,9 @@ func Run(messanger *messenger.Messenger) {
 				// 	connectionList[addrList[i]] = conn
 				// 	fmt.Println(conn == nil)
 				// }
-				// content := fmt.Sprintf("[%s/%s]: %s\n", localIP, messanger.Name, message)
+				// content :=
 				msg := protocol.NewMessage("SUCK")
+				msg.Content = []byte(fmt.Sprintf("[%s/%s]: %s\n", localIP, messanger.Name, message))
 				conn.Write(msg.Serialize())
 			}
 		}
